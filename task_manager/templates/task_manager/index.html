@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        h4 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .create-link {
+            display: block;
+            text-align: right;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .create-link a {
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .create-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h4>Have a productive day!!</h4>
+    
+    <!-- Create Task Link -->
+    <div class="create-link">
+        <a href="{% url 'create_task' %}">+ Create New Task</a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Date Started</th>
+                <th>Progress (%)</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in task_list %}
+            <tr>
+                <td>{{ task.task }}</td>
+                <td>{{ task.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ task.progress }}</td>
+                <td>{% if task.due_date %}{{ task.due_date|date:"Y-m-d H:i" }}{% else %}N/A{% endif %}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No tasks available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
