@@ -18,7 +18,7 @@
         th {
             background-color: #f4f4f4;
         }
-        h4 {
+        h4, h1 {
             text-align: center;
             margin-top: 20px;
         }
@@ -39,14 +39,40 @@
         .create-link a:hover {
             background-color: #0056b3;
         }
+        .logout-btn {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+        }
+        .logout-btn button {
+            background-color: #FF4D4D;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .logout-btn button:hover {
+            background-color: #e60000;
+        }
     </style>
 </head>
 <body>
+    <h1> Hello {{user|capfirst}} </h1>
     <h4>Have a productive day!!</h4>
     
     <!-- Create Task Link -->
     <div class="create-link">
         <a href="{% url 'create_task' %}">+ Create New Task</a>
+    </div>
+
+     <!-- Logout Button -->
+     <div class="logout-btn">
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
     </div>
     
     <table>
@@ -61,7 +87,7 @@
         <tbody>
             {% for task in task_list %}
             <tr>
-                <td>{{ task.task }}</td>
+                <td><a href="{% url 'task_desc' task.id %}">{{ task.task }}</a></td>
                 <td>{{ task.created_at|date:"Y-m-d H:i" }}</td>
                 <td>{{ task.progress }}</td>
                 <td>{% if task.due_date %}{{ task.due_date|date:"Y-m-d H:i" }}{% else %}N/A{% endif %}</td>
