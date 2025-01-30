@@ -14,10 +14,10 @@ from .forms import TaskForm
 def home_page(request):
     user = request.user
     
-    user_tasks = user.task_set.all()
+    task_list = user.task_set.all()
     
 
-    context = {"user_tasks": user_tasks, 'user': user}
+    context = {"task_list": task_list, 'user': user}
 
     return render(request, 'task_manager/index.html', context)
 
@@ -56,7 +56,7 @@ def user_login(request):
     context = {'page': page}
 
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('home_page')
     
     if request.method == 'POST':
         username = request.POST.get('username').lower()
@@ -90,7 +90,7 @@ def user_signup(request):
             messages.success(request, "Signup successful, you can login now")
             return redirect('login')
         else:
-            messages.error(request, "please correct the error below")
+            messages.error(request, "Signup unsuccessful")
 
     else:
         form = UserCreationForm()
